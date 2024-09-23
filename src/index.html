@@ -1,1 +1,30 @@
-i need to brogram this
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rummy</title>
+  <link rel="stylesheet" href="./style.css">
+  <!-- <link rel="icon" href="./chair.jpg"> -->
+</head>
+
+<body>
+  <div id="login" class="page">
+    <h1 style="border: none;">username:</h1>
+    <input id="un" placeholder="username"><button id="libtn">&gt;</button>
+  </div>
+  <div id="find" class="page">
+    <button id="createroom">create / join room</button>
+    <input id="roomname">
+    <div id="roomlist"></div>
+  </div>
+  <div id="game" class="page">
+    <canvas id="canvas"></canvas>
+    <div id="chat"><input id="msg"></div>
+  </div>
+
+  <script src="net.js" async="true"></script>
+  <script src="main.js" async="true"></script>
+</body>
+
+</html>
