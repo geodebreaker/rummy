@@ -13,6 +13,7 @@ function init() {
 
 var un = null;
 var opun = null;
+var gerun = false;
 
 async function login() {
   await connect();
@@ -40,9 +41,9 @@ function joinRoom(r) {
 }
 
 function startGame(){
-  var _ = $('#canvas').getContext('2d');
-  _.fillStyle = 'red';
-  _.fillRect(10, 10, 50, 50);
+  gept = Date.now();
+  gerun = true;
+  geloop();
 }
 
 function switchPage(page) {

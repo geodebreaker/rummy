@@ -46,9 +46,9 @@ input {
   cursor: pointer;
 }
 
-#canvas {
-  width: calc(100% - 60px - 180px);
+#canvas {    
   height: calc(100vh - 45px);
+  width: calc(100% - 240px);
   background: black;
 }
 
