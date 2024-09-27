@@ -3,9 +3,15 @@ $$ = x => document.querySelectorAll(x);
 
 function init() {
   try {
-    $('#un').value = localStorage.un;
+    $('#un').value = localStorage.un || '';
   } catch (e) { }
-  $('#libtn').onclick = () => { un = $('#un').value; login() };
+  $('#libtn').onclick = () => {
+    un = $('#un').value;
+    if (un.length >= 2 && un.length <= 12 && /^(?:\w|-)+$/.exec(un))
+      login();
+    else
+      $('#lilog').innerText += 'username must only use letters, words, underscores or dashes and be between 2 and 12\n';
+  };
   $('#un').onkeypress = e => e.key == 'Enter' ? $('#libtn').click() : null;
 
   switchPage('login');
@@ -21,6 +27,8 @@ async function login() {
     $('#roomlist').innerHTML = '';
     v.map(x => mkRoomList(x));
     switchPage('find');
+  }, e => {
+    $('#lilog').innerText += e + '\n';
   });
 }
 
@@ -40,7 +48,7 @@ function joinRoom(r) {
   });
 }
 
-function startGame(){
+function startGame() {
   gept = Date.now();
   gerun = true;
   geloop();
