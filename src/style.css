@@ -30,6 +30,11 @@ input {
   background: #444;
 }
 
+#lilog {
+  color: red;
+  border: none;
+}
+
 #roomlist {
   padding: 0;
 }
