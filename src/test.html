@@ -1,0 +1,28 @@
+<div id="e"></div>
+<script defer>
+  $ = x => document.querySelector(x);
+
+  function cardsuit(c) {
+    return "\u2660\u2665\u2666\u2663J"[Math.floor(c / 13)];
+  }
+
+  function cardnum(c) {
+    var d = c < 52 ? (c % 13) + 1 : '';
+    return d == 1 ? 'A' : d > 10 ? "JQK"[d - 11] : d;
+  }
+
+  function _mkcard(card) {
+    $('#e').innerText += ((card + '').length == 1 ? '0' : '') + card +
+      '\t: ' + cardsuit(card) + cardnum(card) + '\n';
+  }
+
+  var cards = [];
+  for (var c = 0; c < 54; c++) {
+    var i = Math.floor(Math.random() * c);
+    cards = [...cards.slice(0, i), c, ...cards.slice(i)];
+  }
+
+  for (var i = 0; i < cards.length; i++) {
+    _mkcard(cards[i]);
+  }
+</script>
