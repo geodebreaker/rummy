@@ -68,12 +68,18 @@ function drawboard() {
   var hcs = cellsize / 2;
   var ps = cellsize * .3;
   var as = cellsize * .35;
+  _.font = '10px monospace';
   for (var i = 0; i < boardsize; i++) {
     for (var j = 0; j < boardsize; j++) {
       var x = midw + i * cellsize;
       var y = midh + j * cellsize;
       _.fillStyle = (i + j) % 2 ? '#DDA' : '#795';
       _.fillRect(x, y, cellsize, cellsize);
+      _.fillStyle = '#2228';
+      if (i == 0)
+        _.fillText(j + 1, x + 1, y + 9 + (j == 0) * 6);
+      if (j == 0)
+        _.fillText(String.fromCharCode(65 + i), x + 1 + (i == 0) * 6, y + 9);
 
       if (board[i][j]) {
         _.fillStyle = board[i][j] == 1 ? 'blue' : 'red';
@@ -185,7 +191,7 @@ function geloop() {
 }
 
 document.onmousedown = x => {
-  if(x.button != 0)
+  if (x.button != 0)
     return;
   var midw = WIDTH / 2 - midboard;
   var midh = HEIGHT / 2 - midboard;
