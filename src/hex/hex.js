@@ -117,13 +117,9 @@ function isvictory() {
     return 2;
   if (board[boardsize - 1].includes(1))
     return 1;
-  var t = turn == 1 ? 2 : 1;
-  var b = board.reduce((a, b) => a.concat(b));
-  if (!b.includes(t))
-    return turn;
   var b = [];
   board.map((x, i) => x.map((x, j) => {
-    if (x == t)
+    if (x == turn == 1 ? 2 : 1)
       b.push([i, j]);
   }));
   if (b.map(x => validmoves(x, true)).every(x => x.length == 0))
