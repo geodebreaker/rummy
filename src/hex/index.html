@@ -6,14 +6,25 @@
   <meta property="og:title" content="hexapawn">
   <meta property="og:description" content="Play hexapawn with friends!">
   <meta property="og:url" content="./">
+  <link rel="icon" href="./favicon.png">
   <title>hexapawn</title>
-  <link rel="stylesheet" href="./hex.css">
+  <style>
+    body {
+      background: #444;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    canvas {
+      margin: 0;
+    }
+  </style>
 </head>
 
 <body>
   <canvas id="c"></canvas>
 
-  <script src="hex.js" async="true"></script>
+  <script src="./hex.js" async="true"></script>
 </body>
 
 </html>
