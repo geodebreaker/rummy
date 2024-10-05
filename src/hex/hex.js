@@ -67,7 +67,7 @@ function drawboard() {
   var midh = HEIGHT / 2 - midboard;
   var hcs = cellsize / 2;
   var ps = cellsize * .3;
-  var as = cellsize * .35;
+  var os = cellsize * .075;
   _.font = '10px monospace';
   for (var i = 0; i < boardsize; i++) {
     for (var j = 0; j < boardsize; j++) {
@@ -75,7 +75,7 @@ function drawboard() {
       var y = midh + j * cellsize;
       _.fillStyle = (i + j) % 2 ? '#DDA' : '#795';
       _.fillRect(x, y, cellsize, cellsize);
-      _.fillStyle = '#2228';
+      _.fillStyle = '#444';
       if (i == 0)
         _.fillText(j + 1, x + 1, y + 9 + (j == 0) * 6);
       if (j == 0)
@@ -83,10 +83,15 @@ function drawboard() {
 
       if (board[i][j]) {
         _.fillStyle = board[i][j] == 1 ? 'blue' : 'red';
-        var s = board[i][j] == turn ? as : ps;
         _.beginPath();
-        _.arc(x + hcs, y + hcs, s, 0, Math.PI * 2);
+        _.arc(x + hcs, y + hcs, ps, 0, Math.PI * 2);
         _.fill();
+        if (board[i][j] == turn) {
+          _.fillStyle = '#ff0';
+          _.beginPath();
+          _.arc(x + hcs, y + hcs, os, 0, Math.PI * 2);
+          _.fill();
+        }
       }
 
       if (isvalid([i, j])) {
@@ -110,6 +115,17 @@ function drawboard() {
   _.lineWidth = 2;
   _.strokeText(t, tw, midh / 2 - (turn ? 12 : 25));
   _.fillText(t, tw, midh / 2 - (turn ? 12 : 25));
+
+  var t = 'Hexapawn Improved by geodebreaker [2024 CC BY-NC-SA]';
+  _.font = '10px monospace';
+  var tw = (WIDTH - _.measureText(t).width) / 2;
+  _.fillStyle = 'white';
+  _.strokeStyle = '#000';
+  _.lineWidth = 2;
+  _.strokeText(t, tw, HEIGHT - midh / 2 + 5);
+  _.fillText(t, tw, HEIGHT - midh / 2 + 5);
+  _.clearRect(0, HEIGHT - midh / 2 - 8, WIDTH, 5);
+  _.clearRect(0, HEIGHT - midh / 2 + 8, WIDTH, 5);
 }
 
 function isvictory() {
@@ -119,31 +135,37 @@ function isvictory() {
     return 1;
   var b = [];
   board.map((x, i) => x.map((x, j) => {
-    if (x == turn == 1 ? 2 : 1)
+    if (x == (turn == 1 ? 2 : 1))
       b.push([i, j]);
   }));
   if (b.map(x => validmoves(x, true)).every(x => x.length == 0))
     return turn;
+  return 0;
 }
 
 function validmoves(p, t) {
   var x = p[0];
   var y = p[1];
-  tvalid = [];
+  var tvalid = [];
   if (boardat(p) == 1) {
     if (boardat([x + 1, y]) == 0)
       tvalid.push([x + 1, y]);
-    if (boardat([x + 1, y + 1]) == 2)
-      tvalid.push([x + 1, y + 1]);
-    if (boardat([x + 1, y - 1]) == 2)
-      tvalid.push([x + 1, y - 1]);
   } else if (boardat(p) == 2) {
     if (boardat([x - 1, y]) == 0)
       tvalid.push([x - 1, y]);
-    if (boardat([x - 1, y + 1]) == 1)
-      tvalid.push([x - 1, y + 1]);
-    if (boardat([x - 1, y - 1]) == 1)
-      tvalid.push([x - 1, y - 1]);
+  }
+  var o = boardat(p) == 1 ? 2 : 1;
+  if (x < boardsize - 1) {
+    if (boardat([x + 1, mod(y + 1, boardsize)]) == o)
+      tvalid.push([x + 1, mod(y + 1, boardsize)]);
+    if (boardat([x + 1, mod(y - 1, boardsize)]) == o)
+      tvalid.push([x + 1, mod(y - 1, boardsize)]);
+  }
+  if (x > 0) {
+    if (boardat([x - 1, mod(y + 1, boardsize)]) == o)
+      tvalid.push([x - 1, mod(y + 1, boardsize)]);
+    if (boardat([x - 1, mod(y - 1, boardsize)]) == o)
+      tvalid.push([x - 1, mod(y - 1, boardsize)]);
   }
   if (!t)
     valid = tvalid;
@@ -168,6 +190,10 @@ function gestart() {
   gestop = false;
   start();
   geloop();
+}
+
+function mod(x, y){
+  return x < 0 ? boardsize + x % y : x % y;
 }
 
 function geloop() {
